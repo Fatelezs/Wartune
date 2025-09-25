@@ -1,0 +1,62 @@
+```yaml
+name: Build Windows
+
+
+on:
+push:
+branches: [ main ]
+workflow_dispatch:
+
+
+jobs:
+build-windows:
+runs-on: windows-latest
+
+
+steps:
+- name: Checkout
+uses: actions/checkout@v4
+
+
+- name: Setup Node
+uses: actions/setup-node@v4
+with:
+node-version: '18'
+
+
+- name: Install dependencies
+run: npm ci
+
+
+- name: Build (electron-builder)
+env:
+GAME_URL: ${{ secrets.GAME_URL }}
+run: |
+npm run dist
+
+
+- name: Upload installer artifact
+uses: actions/upload-artifact@v4
+with:
+name: wartune-windows-installer
+path: dist/*
+
+
+- name: Create Release
+id: create_release
+uses: softprops/action-gh-release@v1
+with:
+tag_name: ${{ github.ref_name }}
+env:
+GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+- name: Upload Release Asset
+uses: softprops/action-gh-release-upload@v1
+with:
+tag_name: ${{ github.ref_name }}
+name: wartune-multiclient-windows.zip
+asset_path: dist/**
+env:
+GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```

@@ -1,0 +1,37 @@
+```json
+{
+"name": "wartune-multiclient",
+"version": "0.1.0",
+"description": "Electron multiclient wrapper for Wartune (Windows only)",
+"main": "main.js",
+"scripts": {
+"start": "electron .",
+"dist": "electron-builder --win nsis"
+},
+"author": "Your Name",
+"license": "MIT",
+"dependencies": {},
+"devDependencies": {
+"electron": "^25.0.0",
+"electron-builder": "^24.0.0"
+},
+"build": {
+"appId": "com.yourname.wartune-multiclient",
+"productName": "Wartune Multiclient",
+"files": ["**/*"],
+"directories": {"output": "dist"},
+"win": {
+"target": ["nsis"]
+},
+"nsis": {
+"oneClick": false,
+"perMachine": false,
+"allowElevation": true,
+"allowToChangeInstallationDirectory": true
+}
+}
+}
+```
+
+
+---
